@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Dúvida ou discussão
+    url: https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/discussions
+    about: Para perguntas abertas, ideias ou suporte
+  - name: Reportar vulnerabilidade
+    url: https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/security/advisories/new
+    about: NÃO abra issue pública para vulnerabilidades. Use Security Advisories (privado).

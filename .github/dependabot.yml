@@ -1,0 +1,64 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "maven"]
+    commit-message:
+      prefix: "chore(deps)"
+      include: scope
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
+          - "org.springframework:*"
+          - "org.springframework.security:*"
+      observability:
+        patterns:
+          - "io.opentelemetry:*"
+          - "io.micrometer:*"
+          - "net.logstash.logback:*"
+      resilience:
+        patterns:
+          - "io.github.resilience4j:*"
+      testing:
+        patterns:
+          - "org.junit.*:*"
+          - "org.assertj:*"
+          - "org.testcontainers:*"
+          - "org.wiremock:*"
+          - "com.tngtech.archunit:*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "github-actions"]
+    commit-message:
+      prefix: "chore(ci)"
+      include: scope
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "docker"]
+    commit-message:
+      prefix: "chore(docker)"
+      include: scope

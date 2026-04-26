@@ -1,0 +1,47 @@
+name: Feature request
+description: Sugerir nova funcionalidade ou melhoria.
+title: "[feat] "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema / motivação
+      description: Que dor essa feature resolve? Quem é o usuário?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Como você imagina a solução? API, fluxo, comportamento esperado.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: O que você descartou e por quê.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Escopo
+      options:
+        - Domínio (regras DICT / Pix)
+        - Cliente HTTP / mTLS
+        - Cache / TTL policy
+        - Resiliência
+        - Observabilidade
+        - Simulador
+        - DX / docs / build
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Contexto adicional

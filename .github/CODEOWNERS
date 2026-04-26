@@ -1,0 +1,13 @@
+# Code owners for pix-nfc-reference
+# Docs: https://docs.github.com/articles/about-code-owners
+
+# Default owner for everything
+*                                       @Paulo-Marcos-Lucio
+
+# Critical paths require explicit review
+/pom.xml                                @Paulo-Marcos-Lucio
+/.github/                               @Paulo-Marcos-Lucio
+/compose.yaml                           @Paulo-Marcos-Lucio
+/src/main/java/dev/pmlsp/dict/infrastructure/mtls/         @Paulo-Marcos-Lucio
+/src/main/java/dev/pmlsp/dict/infrastructure/cache/        @Paulo-Marcos-Lucio
+/docs/adr/                              @Paulo-Marcos-Lucio

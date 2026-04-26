@@ -1,0 +1,25 @@
+* text=auto eol=lf
+
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+*.jar   binary
+*.war   binary
+*.ear   binary
+*.zip   binary
+*.gz    binary
+*.tgz   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.p12   binary
+*.pfx   binary
+*.jks   binary
+
+*.java   diff=java
+*.kt     diff=kotlin
+*.md     diff=markdown

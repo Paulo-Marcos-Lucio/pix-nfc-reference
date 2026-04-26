@@ -1,0 +1,9 @@
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    dev.pmlsp.pixnfc: DEBUG
+    org.springframework.web: INFO

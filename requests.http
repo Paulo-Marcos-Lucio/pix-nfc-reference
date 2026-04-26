@@ -1,0 +1,45 @@
+### 1. Lado recebedor — emitir cobrança NFC
+### A maquininha solicita um payload assinado pra emitir via NFC à máquina do pagador.
+POST http://localhost:8081/v1/nfc/charges
+Content-Type: application/json
+
+{
+  "terminalId": "T-001",
+  "amountCents": 1500,
+  "displayLabel": "Padaria São José · #4210",
+  "validitySeconds": 120
+}
+
+> {%
+client.global.set("payload_wire", response.body.payloadWire);
+client.global.set("charge_id", response.body.chargeId);
+%}
+
+### 2. Lado pagador — apenas validar (mostra ao usuário antes de cobrar)
+POST http://localhost:8081/v1/nfc/payments/validate
+Content-Type: application/json
+
+{
+  "payloadWire": "{{payload_wire}}"
+}
+
+### 3. Lado pagador — autorizar e disparar Pix via SPI
+POST http://localhost:8081/v1/nfc/payments
+Content-Type: application/json
+
+{
+  "payloadWire": "{{payload_wire}}",
+  "payerAccount": {
+    "ispb": "99988877",
+    "branch": "0001",
+    "number": "0000556677",
+    "type": "CACC"
+  },
+  "payerDeviceId": "device-iphone-15"
+}
+
+### Health
+GET http://localhost:8081/actuator/health
+
+### Prometheus metrics
+GET http://localhost:8081/actuator/prometheus

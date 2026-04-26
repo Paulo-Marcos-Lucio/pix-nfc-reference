@@ -1,0 +1,137 @@
+spring:
+  application:
+    name: pix-nfc-reference
+  profiles:
+    default: local
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8081
+  shutdown: graceful
+  compression:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        nfc.operation.duration: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+        nfc.operation.duration: 0.5, 0.95, 0.99
+      slo:
+        nfc.operation.duration: 50ms, 100ms, 250ms, 500ms, 1s
+  prometheus:
+    metrics:
+      export:
+        properties:
+          io.micrometer.prometheus.exemplars.enabled: true
+  observations:
+    key-values:
+      service: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://${OTEL_HOST:localhost}:4318/v1/traces
+    metrics:
+      export:
+        url: http://${OTEL_HOST:localhost}:4318/v1/metrics
+    logging:
+      endpoint: http://${OTEL_HOST:localhost}:4318/v1/logs
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+pixnfc:
+  merchant:
+    ispb: ${MERCHANT_ISPB:12345678}
+    pix-key: ${MERCHANT_PIX_KEY:12345678000199}
+    display-name: ${MERCHANT_NAME:Padaria São José}
+  crypto:
+    hmac-key: ${HMAC_KEY:dev-only-hmac-secret-change-in-prod-min-32-bytes}
+    hmac-algorithm: HmacSHA256
+  dict:
+    endpoint:
+      base-url: ${DICT_BASE_URL:http://localhost:8081/dict/v1}
+      connect-timeout: 2s
+      read-timeout: 5s
+    cache:
+      max-size: 50000
+      ttl:
+        cpf: 30s
+        cnpj: 60s
+        email: 60s
+        phone: 60s
+        evp: 30s
+  spi:
+    endpoint:
+      base-url: ${SPI_BASE_URL:http://localhost:8081/spi/v1}
+      connect-timeout: 2s
+      read-timeout: 5s
+  mtls:
+    enabled: ${MTLS_ENABLED:false}
+    bundle-name: ${MTLS_BUNDLE:}
+  simulator:
+    enabled: false
+    failure-rate: 0.0
+    latency-jitter: 0ms
+    store-capacity: 1000
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      dict-lookup:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 50
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 5
+      spi-pay:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 30
+        failure-rate-threshold: 30
+        wait-duration-in-open-state: 20s
+        permitted-number-of-calls-in-half-open-state: 3
+  retry:
+    instances:
+      dict-lookup:
+        max-attempts: 3
+        wait-duration: 200ms
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - dev.pmlsp.pixnfc.domain.exception.SpiUnavailableException
+      spi-pay:
+        max-attempts: 2
+        wait-duration: 500ms
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - dev.pmlsp.pixnfc.domain.exception.SpiUnavailableException
+  ratelimiter:
+    instances:
+      dict-lookup:
+        limit-for-period: 50
+        limit-refresh-period: 1s
+        timeout-duration: 100ms
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:-},%X{traceId:-},%X{spanId:-}]"
