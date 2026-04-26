@@ -49,16 +49,3 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-
-  - package-ecosystem: docker
-    directory: "/"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "06:00"
-      timezone: America/Sao_Paulo
-    open-pull-requests-limit: 5
-    labels: ["dependencies", "docker"]
-    commit-message:
-      prefix: "chore(docker)"
-      include: scope
