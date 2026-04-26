@@ -22,7 +22,7 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.36</lombok.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <springdoc.version>2.7.0</springdoc.version>
+        <springdoc.version>3.0.3</springdoc.version>
         <resilience4j.version>2.2.0</resilience4j.version>
         <logstash-logback.version>8.0</logstash-logback.version>
         <opentelemetry.version>1.43.0</opentelemetry.version>
