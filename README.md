@@ -1,3 +1,5 @@
+[![Suíte Regulatória BR](https://img.shields.io/badge/%F0%9F%8C%90%20Su%C3%ADte%20Regulat%C3%B3ria%20BR-paulo--marcos--lucio.github.io-3fb950?style=for-the-badge)](https://paulo-marcos-lucio.github.io)
+
 # pix-nfc-reference
 
 > Implementação de **referência** *production-grade* do **Pix por Aproximação (NFC)** —
