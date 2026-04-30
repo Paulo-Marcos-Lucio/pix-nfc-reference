@@ -172,6 +172,25 @@ ADRs em `docs/adr/`:
 - [0004 — Resilience strategy por grupo](docs/adr/0004-resilience-strategy.md)
 - [0005 — Simulator como Spring profile](docs/adr/0005-simulator-as-profile.md)
 
+## Test Coverage & API Docs
+
+| Categoria | Tests |
+|---|---|
+| Unit (incl. ArchUnit) | 17 |
+| Integration (dual simulator) | 1 |
+| **Total** | **18** |
+
+JaCoCo coverage report gerado em `target/site/jacoco/index.html` após `./mvnw verify`.
+
+**API Documentation** (live com a app rodando em `http://localhost:8081`):
+- Swagger UI: <http://localhost:8081/swagger-ui.html>
+- OpenAPI 3 spec (JSON): <http://localhost:8081/v3/api-docs>
+- Geração offline do spec:
+  ```bash
+  ./mvnw spring-boot:run    # em outro terminal
+  curl http://localhost:8081/v3/api-docs > docs/openapi.json
+  ```
+
 ## Roadmap
 
 - [ ] v0.2.0 — substituir HMAC por **ECDSA com cert ICP-Brasil** (assinatura assimétrica de produção)
