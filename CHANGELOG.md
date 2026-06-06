@@ -6,6 +6,21 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 
 ## [Unreleased]
 
+### Changed — Manutenção junho/2026
+
+- **Migração para Spring Boot 4.0.6** (Framework 7, Jakarta EE 11, Tomcat 11) a partir do 3.4.1.
+  - HTTP client factories migrados para a nova API: `ClientHttpRequestFactories` → `ClientHttpRequestFactoryBuilder.jdk()` e `ClientHttpRequestFactorySettings` → `HttpClientSettings` (módulo `spring-boot-http-client`, agora dependência explícita pois não vem transitivo do starter-web no Boot 4).
+  - `NfcEndToEndIT` reescrito de `TestRestTemplate` (removido no Boot 4) para `RestClient` — mesmo cenário end-to-end, sem test-support extra.
+- **resilience4j** 2.2.0 → 2.4.0, com troca do módulo `resilience4j-spring-boot3` → `resilience4j-spring-boot4` (compatível com Framework 7).
+- **springdoc-openapi** 2.7.0 → 3.0.3 (linha 3.x exigida pelo Boot 4).
+- **logstash-logback-encoder** 8.0 → 9.0.
+- **lombok** 1.18.36 → 1.18.46.
+- **archunit** 1.3.0 → 1.4.2.
+- **wiremock-standalone** 3.10.0 → 3.13.2.
+- **testcontainers** 1.20.4 → 1.21.4.
+- **jacoco-maven-plugin** 0.8.12 → 0.8.15.
+- **GitHub Actions** atualizadas em todos os workflows (checkout v6, setup-java v5, codeql v4, upload/download-artifact v7/v8, codecov v6, trivy/docker/gh-release majors).
+
 ## [0.1.0] - 2026-04-26
 
 Primeira release pública. Implementação Java de referência para **Pix por Aproximação (NFC)**, com simuladores DICT e SPI rodando junto.

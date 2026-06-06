@@ -2,12 +2,11 @@ package dev.pmlsp.pixnfc.infrastructure.http;
 
 import dev.pmlsp.pixnfc.infrastructure.config.PixNfcProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
+import org.springframework.boot.http.client.HttpClientSettings;
 import org.springframework.boot.ssl.SslBundle;
 import org.springframework.boot.ssl.SslBundles;
-import org.springframework.boot.web.client.ClientHttpRequestFactories;
-import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
 /**
@@ -26,7 +25,7 @@ public final class SpiHttpClientFactory {
     }
 
     public RestClient build() {
-        ClientHttpRequestFactorySettings settings = ClientHttpRequestFactorySettings.DEFAULTS
+        HttpClientSettings settings = HttpClientSettings.defaults()
                 .withConnectTimeout(props.spi().endpoint().connectTimeout())
                 .withReadTimeout(props.spi().endpoint().readTimeout());
 
@@ -38,7 +37,7 @@ public final class SpiHttpClientFactory {
             log.warn("spi.http.mtls disabled — only acceptable for local/simulator profiles");
         }
 
-        ClientHttpRequestFactory factory = ClientHttpRequestFactories.get(JdkClientHttpRequestFactory.class, settings);
+        ClientHttpRequestFactory factory = ClientHttpRequestFactoryBuilder.jdk().build(settings);
 
         return RestClient.builder()
                 .baseUrl(props.spi().endpoint().baseUrl())

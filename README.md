@@ -8,13 +8,13 @@
 > chave do recebedor, gateway SPI, mTLS ICP-Brasil-ready, simulador in-process,
 > resilience tipada e observabilidade end-to-end versionada como código.
 >
-> Java 21 · Spring Boot 3.4 · Hexagonal · Resilience4j · Caffeine · OpenTelemetry · Grafana
+> Java 21 · Spring Boot 4.0 · Hexagonal · Resilience4j · Caffeine · OpenTelemetry · Grafana
 
 [![CI](https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/actions/workflows/ci.yml/badge.svg)](https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/actions/workflows/codeql.yml/badge.svg)](https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java 21](https://img.shields.io/badge/Java-21-007396?logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/21/)
-[![Spring Boot 3.4](https://img.shields.io/badge/Spring%20Boot-3.4-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Boot 4.0](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 
 ---
 
@@ -176,9 +176,9 @@ ADRs em `docs/adr/`:
 
 | Categoria | Tests |
 |---|---|
-| Unit (incl. ArchUnit) | 17 |
+| Unit (incl. ArchUnit) | 22 |
 | Integration (dual simulator) | 1 |
-| **Total** | **18** |
+| **Total** | **23** |
 
 JaCoCo coverage report gerado em `target/site/jacoco/index.html` após `./mvnw verify`.
 
