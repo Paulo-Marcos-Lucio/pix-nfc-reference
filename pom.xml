@@ -26,7 +26,7 @@
         <resilience4j.version>2.4.0</resilience4j.version>
         <logstash-logback.version>9.0</logstash-logback.version>
         <opentelemetry.version>1.43.0</opentelemetry.version>
-        <archunit.version>1.4.2</archunit.version>
+        <archunit.version>1.5.0</archunit.version>
         <testcontainers.version>1.21.4</testcontainers.version>
         <wiremock.version>3.13.2</wiremock.version>
     </properties>
