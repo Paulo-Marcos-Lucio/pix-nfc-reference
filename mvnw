@@ -1,14 +1,32 @@
 #!/bin/sh
 # ----------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+# ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
 # Apache Maven Wrapper startup batch script, version 3.3.2
 #
-# Required ENV vars:
-# JAVA_HOME - location of a JDK home dir
-#
-# Optional ENV vars:
-# MVNW_REPOURL - repo url base for downloading maven distribution
-# MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
-# MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
+# Optional ENV vars
+# -----------------
+#   JAVA_HOME - location of a JDK home dir, required when download maven via java source
+#   MVNW_REPOURL - repo url base for downloading maven distribution
+#   MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
+#   MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
 # ----------------------------------------------------------------------------
 
 set -euf
@@ -116,13 +134,13 @@ maven-mvnd-*) MVN_CMD=mvnd.sh _MVNW_REPO_PATTERN=/maven/mvnd/ ;;
 esac
 
 # apply MVNW_REPOURL and calculate MAVEN_HOME
-# maven_home="${user.home}/.m2/wrapper/dists/${distributionUrl##*/}/${distributionUrlNameHash}"
+# maven home pattern: ~/.m2/wrapper/dists/{apache-maven-<version>,maven-mvnd-<version>-<platform>}/<hash>
 [ -z "${MVNW_REPOURL-}" ] || distributionUrl="$MVNW_REPOURL$_MVNW_REPO_PATTERN${distributionUrl#*"$_MVNW_REPO_PATTERN"}"
 distributionUrlName="${distributionUrl##*/}"
 distributionUrlNameMain="${distributionUrlName%.*}"
 distributionUrlNameMain="${distributionUrlNameMain%-bin}"
 MAVEN_USER_HOME="${MAVEN_USER_HOME:-${HOME}/.m2}"
-MAVEN_HOME="${MAVEN_USER_HOME}/wrapper/dists/${distributionUrlNameMain}/$(hash_string "$distributionUrl")"
+MAVEN_HOME="${MAVEN_USER_HOME}/wrapper/dists/${distributionUrlNameMain-}/$(hash_string "$distributionUrl")"
 
 exec_maven() {
   unset MVNW_VERBOSE MVNW_USERNAME MVNW_PASSWORD MVNW_REPOURL || :
@@ -162,7 +180,7 @@ fi
 
 # verbose opt
 __MVNW_QUIET_WGET=--quiet __MVNW_QUIET_CURL=--silent __MVNW_QUIET_UNZIP=-q __MVNW_QUIET_TAR=''
-[ "${MVNW_VERBOSE-}" != true ] || __MVNW_QUIET_WGET='' __MVNW_QUIET_CURL='' __MVNW_QUIET_UNZIP='' __MVNW_QUIET_TAR='v'
+[ "${MVNW_VERBOSE-}" != true ] || __MVNW_QUIET_WGET='' __MVNW_QUIET_CURL='' __MVNW_QUIET_UNZIP='' __MVNW_QUIET_TAR=v
 
 # normalize http auth
 case "${MVNW_PASSWORD:+has-password}" in
@@ -194,8 +212,11 @@ elif set_java_home; then
 	  }
 	}
 	END
-  "$JAVACCMD" "$javaSource" || die "Failed to compile Downloader.java"
-  "$JAVACMD" -cp "$TMP_DOWNLOAD_DIR" Downloader "$distributionUrl" "$targetZip" || die "Java downloader failed"
+  # For Cygwin/MinGW, switch paths to Windows format before running javac and java
+  verbose " - Compiling Downloader.java ..."
+  "$(native_path "$JAVACCMD")" "$(native_path "$javaSource")" || die "Failed to compile Downloader.java"
+  verbose " - Running Downloader.java ..."
+  "$(native_path "$JAVACMD")" -cp "$(native_path "$TMP_DOWNLOAD_DIR")" Downloader "$distributionUrl" "$(native_path "$targetZip")"
 fi
 
 # If specified, validate the SHA-256 sum of the Maven distribution zip file
@@ -214,7 +235,7 @@ if [ -n "${distributionSha256Sum-}" ]; then
       distributionSha256Result=true
     fi
   else
-    echo "Checksum validation was requested but neither 'sha256sum' nor 'shasum' are available." >&2
+    echo "Checksum validation was requested but neither 'sha256sum' or 'shasum' are available." >&2
     echo "Please install either command, or disable validation by removing 'distributionSha256Sum' from your maven-wrapper.properties." >&2
     exit 1
   fi
