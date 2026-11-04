@@ -80,6 +80,3 @@ Primeira release pública. Implementação Java de referência para **Pix por Ap
 
 - 5 ADRs (`docs/adr/`)
 - BCB compliance mapping (`docs/compliance/bcb-nfc-mapping.md`)
-
-[Unreleased]: https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/Paulo-Marcos-Lucio/pix-nfc-reference/releases/tag/v0.1.0
